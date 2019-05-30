@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactPaginate from "react-paginate";
 
 function Pagination(props) {
-  const { totalResults, handlePageClick } = props;
+  const { totalResults, handlePageClick, forcePage } = props;
 
   return (
     <ReactPaginate
@@ -17,6 +17,7 @@ function Pagination(props) {
       containerClassName={"pagination"}
       subContainerClassName={"pages pagination"}
       activeClassName={"activePage"}
+      forcePage={forcePage}
     />
   );
 }

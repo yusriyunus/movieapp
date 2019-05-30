@@ -1,5 +1,4 @@
 import React from "react";
-import _ from "underscore";
 import { MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
 import { Link } from "react-router-dom";
 import Popup from "reactjs-popup";
@@ -26,7 +25,7 @@ class Table extends React.Component {
             modal
             closeOnDocumentClick
           >
-            <img src={movie.Poster} />
+            <img src={movie.Poster} alt="Poster" />
           </Popup>
         </td>
         <td>
@@ -39,9 +38,7 @@ class Table extends React.Component {
   };
 
   renderDetailMovie = movie => {
-    console.log(movie);
     return Object.keys(movie).map(function(key, index) {
-      console.log(key, movie[key]);
       if (key !== "Ratings" && key !== "Poster" && key !== "Response") {
         return (
           <tr key={index}>
@@ -50,6 +47,7 @@ class Table extends React.Component {
           </tr>
         );
       }
+      return null;
     });
   };
 

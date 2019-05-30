@@ -1,44 +1,49 @@
 import React from "react";
 import _ from "underscore";
-import axios from "axios";
+import Cookies from "universal-cookie";
+import { connect } from "react-redux";
+import { getMovieList } from "../redux/action";
 import Table from "../components/Table";
 import Pagination from "../components/Pagination";
+
+const cookies = new Cookies();
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.saveTitle = _.throttle(this.saveTitle.bind(this), 1000);
-    this.state = { movies: {}, totalResults: 1 };
+    this.state = { movies: {}, totalResults: 0, forcePage: 0 };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.saveTitle();
+    const [title, page] = await Promise.all([
+      cookies.get("title"),
+      cookies.get("page")
+    ]);
+    title && this.props.getMovieList(title, page);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { globalState } = nextProps;
+    if (globalState !== prevState) {
+      return globalState;
+    } else return null;
   }
 
   // using debounce concept
   async saveTitle() {
     let val = this.inputTitle.value;
-    const movies = await axios.get(
-      `http://www.omdbapi.com?apikey=b6814fee&s=${val}`
-    );
-
-    movies &&
-      this.setState({
-        movies: movies.data,
-        totalResults: movies.data.totalResults
-      });
+    this.props.getMovieList(val);
   }
 
   handlePageClick = async e => {
     let val = this.inputTitle.value;
-    const movies = await axios.get(
-      `http://www.omdbapi.com?apikey=b6814fee&s=${val}&page=${e.selected + 1}`
-    );
-    movies && this.setState({ movies: movies.data });
+    this.props.getMovieList(val, e.selected + 1);
   };
 
   render() {
-    const { movies, totalResults } = this.state;
+    const { movies, totalResults, forcePage } = this.state;
     return (
       <div className="pageWrapper">
         <div className="form-group">
@@ -69,10 +74,20 @@ class Home extends React.Component {
         <Pagination
           totalResults={totalResults}
           handlePageClick={this.handlePageClick}
+          forcePage={forcePage}
         />
       </div>
     );
   }
 }
 
-export default Home;
+const mapStateToProps = globalState => {
+  return {
+    globalState
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { getMovieList }
+)(Home);

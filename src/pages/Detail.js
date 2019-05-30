@@ -1,26 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { connect } from "react-redux";
+import { getMovieDetail } from "../redux/action";
 import Table from "../components/Table";
 import Spinner from "../asset/Spinner.gif";
 
 class Detail extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { movies: {}, loading: true };
+    this.state = { movieDetail: {}, loading: true };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { imdbID } = this.props.match.params;
-    const movies = await axios.get(
-      `http://www.omdbapi.com?apikey=b6814fee&i=${imdbID}`
-    );
-    movies && this.setState({ movies: movies.data, loading: false });
+    this.props.getMovieDetail(imdbID);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { globalState } = nextProps;
+    if (globalState !== prevState) {
+      return globalState;
+    } else return null;
   }
 
   render() {
-    const { movies, loading } = this.state;
-    if (!loading) {
+    const { movieDetail, loading } = this.state;
+    if (!loading && movieDetail.imdbID) {
       return (
         <div className="pageWrapper">
           <h3>
@@ -28,11 +33,11 @@ class Detail extends React.Component {
           </h3>
           <div className="detailPage">
             <div>
-              <img src={movies.Poster} alt="Poster" />
+              <img src={movieDetail.Poster} alt="Poster" />
             </div>
             <Table
               tableHead={["Info", "Description"]}
-              content={movies}
+              content={movieDetail}
               type="detailMovie"
             />
           </div>
@@ -42,5 +47,13 @@ class Detail extends React.Component {
     return <img src={Spinner} alt="Spinner" />;
   }
 }
+const mapStateToProps = globalState => {
+  return {
+    globalState
+  };
+};
 
-export default Detail;
+export default connect(
+  mapStateToProps,
+  { getMovieDetail }
+)(Detail);

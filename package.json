@@ -15,7 +15,8 @@
     "reactjs-popup": "^1.4.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "underscore": "^1.9.1"
+    "underscore": "^1.9.1",
+    "universal-cookie": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

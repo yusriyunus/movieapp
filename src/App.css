@@ -1,3 +1,17 @@
+@media (min-width: 0px) {
+  .pageWrapper {
+    padding: 50px 0;
+  }
+}
+@media (min-width: 768px) {
+  .pageWrapper {
+    padding: 100px 20vw;
+  }
+  .detailPage {
+    display: flex;
+  }
+}
+
 .pagination {
   justify-content: center;
 }
@@ -22,4 +36,21 @@
 .activePage a {
   font-size: 22px;
   font-weight: 400;
+}
+tbody tr:hover {
+  background: lightgrey;
+}
+
+.detailMovieTable {
+  text-align: left !important;
+}
+.detailMovieTable th,
+.detailMovieTable td {
+  max-width: 800px;
+}
+.detailMovieTable td {
+  padding: 5px !important;
+}
+.detailMovieTable th {
+  padding: 10px !important;
 }

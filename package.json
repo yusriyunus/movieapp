@@ -3,9 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
+    "mdbreact": "^4.15.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-paginate": "^6.3.0",
+    "react-popup": "^0.10.0",
+    "react-redux": "^7.0.3",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "3.0.1",
+    "reactjs-popup": "^1.4.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "underscore": "^1.9.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -27,5 +37,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.2"
   }
 }
